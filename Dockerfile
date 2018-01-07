@@ -8,10 +8,15 @@ ENV	TS_USER=teamspeak \
 
 RUN	set -x \
     	&& apk update \
-    	&& apk --no-cache add ca-certificates wget openssl bash glib \
+    	&& apk --no-cache add ca-certificates wget openssl bash \
     	&& update-ca-certificates \
     	&& apk --no-cache --virtual add w3m bzip2
 
+		
+# Get us a glibc
+RUN wget --no-check-certificate https://github.com/sgerrand/alpine-pkg-glibc/releases/download/unreleased/glibc-2.26-r0.apk -O /tmp/glibc-2.26-r0.apk
+RUN apk add --allow-untrusted /tmp/glibc-2.26-r0.apk && rm /tmp/glibc-2.26-r0.apk
+		
 RUN     addgroup -S \
 		-g 911 \
            	${TS_USER} \
@@ -21,8 +26,8 @@ RUN     addgroup -S \
             	-D \
 		$TS_USER
 
-VOLUME /teamspeak
 WORKDIR	${TS_HOME}
+
 
 # Get teamspeak package
 RUN	TS_SERVER_VER="$(w3m -dump https://www.teamspeak.com/downloads | grep -m 1 'Server 64-bit ' | awk '{print $NF}')" \
@@ -48,5 +53,4 @@ EXPOSE 	9987/udp
 EXPOSE 	10011
 EXPOSE 	30033
 
-# ENTRYPOINT ["/teamspeak/entrypoint.sh"]
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["/teamspeak/entrypoint.sh"]
