@@ -14,7 +14,7 @@ RUN	set -x \
 
 		
 # Get us a glibc
-RUN wget --no-check-certificate https://github.com/sgerrand/alpine-pkg-glibc/releases/download/unreleased/glibc-2.26-r0.apk -O /tmp/glibc-2.26-r0.apk
+RUN wget --no-check-certificate https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.26-r0/glibc-2.26-r0.apk -O /tmp/glibc-2.26-r0.apk
 RUN apk add --allow-untrusted /tmp/glibc-2.26-r0.apk && rm /tmp/glibc-2.26-r0.apk
 		
 RUN     addgroup -S \
