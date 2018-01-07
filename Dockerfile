@@ -14,13 +14,14 @@ RUN	set -x \
 
 RUN     addgroup -S \
 		-g 911 \
-           	$TS_USER \
+           	${TS_USER} \
         && adduser -S \
             	-u 911 \
-            	-G $TS_USER \
+            	-G ${TS_USER} \
             	-D \
 		$TS_USER
 
+VOLUME /teamspeak
 WORKDIR	${TS_HOME}
 
 # Get teamspeak package
@@ -47,4 +48,5 @@ EXPOSE 	9987/udp
 EXPOSE 	10011
 EXPOSE 	30033
 
-ENTRYPOINT ["/teamspeak/entrypoint.sh"]
+# ENTRYPOINT ["/teamspeak/entrypoint.sh"]
+ENTRYPOINT ["/bin/bash"]
