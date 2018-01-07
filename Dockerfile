@@ -25,8 +25,7 @@ WORKDIR	${TS_HOME}
 # Teamspeak package
 RUN	TS_SERVER_VER="$(w3m -dump https://www.teamspeak.com/downloads | grep -m 1 'Server 64-bit ' | awk '{print $NF}')" \
 	&& wget http://dl.4players.de/ts/releases/${TS_SERVER_VER}/teamspeak3-server_linux_amd64-${TS_SERVER_VER}.tar.bz2 -O /tmp/teamspeak.tar.bz2 \
-  	&& tar jxf /tmp/teamspeak.tar.bz2 -C /tmp \
-  	&& mv /tmp/teamspeak3-server_*/* ${TS_HOME}
+  	&& tar jxf /tmp/teamspeak.tar.bz2 -C ${TS_HOME}
 
 # Clean up
 RUN	set -x \
