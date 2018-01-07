@@ -10,7 +10,7 @@ RUN	set -x \
     	&& apk update \
     	&& apk --no-cache add ca-certificates wget openssl bash glib \
     	&& update-ca-certificates \
-    	&& apk --no-cache --virtual .build-dependencies add w3m bzip2
+    	&& apk --no-cache --virtual add w3m bzip2
 
 RUN     addgroup -S \
 		-g 911 \
@@ -33,7 +33,6 @@ RUN	TS_SERVER_VER="$(w3m -dump https://www.teamspeak.com/downloads | grep -m 1 '
 # Clean up
 RUN	set -x \
     	&& rm /tmp/teamspeak.tar.bz2 \
-    	&& apk del .build-dependencies \
     	&& rm -rf /tmp/*
 
 RUN 	cp "$(pwd)/redist/libmariadb.so.2" $(pwd)
@@ -48,4 +47,4 @@ EXPOSE 	9987/udp
 EXPOSE 	10011
 EXPOSE 	30033
 
-ENTRYPOINT ["${TS_HOME}/entrypoint.sh"]
+ENTRYPOINT ["/teamspeak/entrypoint.sh"]
