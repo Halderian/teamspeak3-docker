@@ -5,7 +5,6 @@ LABEL   maintainer "Viktoria Rei Bauer"
 ENV	TS_USER=teamspeak \
 	TS_HOME=/teamspeak
 
-# Get some stuff in order to work properly
 RUN	set -x \
     	&& apk update \
     	&& apk --no-cache add ca-certificates wget openssl bash glib \
@@ -23,7 +22,7 @@ RUN     addgroup -S \
 
 WORKDIR	${TS_HOME}
 
-# Get teamspeak package
+# Teamspeak package
 RUN	TS_SERVER_VER="$(w3m -dump https://www.teamspeak.com/downloads | grep -m 1 'Server 64-bit ' | awk '{print $NF}')" \
 	&& wget http://dl.4players.de/ts/releases/${TS_SERVER_VER}/teamspeak3-server_linux_amd64-${TS_SERVER_VER}.tar.bz2 -O /tmp/teamspeak.tar.bz2 \
   	&& tar jxf /tmp/teamspeak.tar.bz2 -C /tmp \
@@ -37,9 +36,10 @@ RUN	set -x \
 
 RUN 	cp "$(pwd)/redist/libmariadb.so.2" $(pwd)
 
-ADD 	entrypoint.sh ${TS_HOME}/entrypoint.sh
+ADD 	entrypoint.sh /entrypoint.sh
 
-RUN 	chown -R ${TS_USER}:${TS_USER} ${TS_HOME} && chmod +x entrypoint.sh
+RUN 	chown -R ${TS_USER}:${TS_USER} ${TS_HOME} 
+RUN     chmod +x /entrypoint.sh
 
 USER  	${TS_USER}
 
@@ -47,4 +47,4 @@ EXPOSE 	9987/udp
 EXPOSE 	10011
 EXPOSE 	30033
 
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
