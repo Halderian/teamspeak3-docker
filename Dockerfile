@@ -13,10 +13,10 @@ RUN	set -x \
     	&& apk --no-cache --virtual .build-dependencies add w3m bzip2
 
 RUN     addgroup -S \
-		-g 503 \
+		-g 911 \
            	$TS_USER \
         && adduser -S \
-            	-u 503 \
+            	-u 911 \
             	-G $TS_USER \
             	-D \
 		$TS_USER
